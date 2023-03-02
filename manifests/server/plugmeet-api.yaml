@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plugnmeet-api
+  labels:
+    app: plugnmeet-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plugnmeet-api
+  template:
+    metadata:
+      labels:
+        app: plugnmeet-api
+    spec:
+      containers:
+        - name: plugnmeet-api
+          image: houtei123/plugnmeet-api:2.1
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+        - name: livekit
+          image: houtei123/livekit:1.3
+          command: ["/bin/sh", "-c"]
+          args:
+            - ./livekit-server --config "/app/livekit.yaml" --dev
+          ports:
+          - containerPort: 7880
+          - containerPort: 7881
+          - containerPort: 7882
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: plugnmeet-api-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plugnmeet-api-service
+spec:
+  selector:
+    app: plugnmeet-api
+  ports:
+    - name: plugnmeet-api
+      port: 8080
+      targetPort: 8080

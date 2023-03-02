@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plugnmeet-frontent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: plugnmeet-frontent
+  template:
+    metadata:
+      labels:
+        app: plugnmeet-frontent
+    spec:
+      containers:
+      - name: frontend
+        image: houtei123/plugnmeet_frontent:localhost-1
+        env:
+            - name: PLUG_N_MEET_SERVER_URL
+              value: "localhost:8080"
+        ports:
+        - containerPort: 3000

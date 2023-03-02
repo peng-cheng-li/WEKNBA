@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: centraldashboard
+    app.kubernetes.io/component: centraldashboard
+    app.kubernetes.io/name: centraldashboard
+    kustomize.component: centraldashboard
+  name: centraldashboard
+  namespace: wellna
+spec:
+  gateways:
+  - wellna-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /houtei/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: centraldashboard.wellna.svc.cluster.local
+        port:
+          number: 80

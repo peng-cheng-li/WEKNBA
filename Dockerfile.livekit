@@ -1,0 +1,11 @@
+FROM livekit/livekit-server
+
+WORKDIR /
+
+COPY server /app/
+
+# COPY livekit.yaml /app
+
+CMD ["sh", "-c", "./livekit-server --config /app/livekit.yaml --dev"]
+
+# CMD ["sh", "-c", "--config /app/livekit.yaml --dev"]

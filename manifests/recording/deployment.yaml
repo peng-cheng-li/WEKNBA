@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plugnmeet-recorder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: plugnmeet-recorder
+  template:
+    metadata:
+      labels:
+        app: plugnmeet-recorder
+    spec:
+      containers:
+      - name: frontend
+        image: houtei123/plugnmeet-recording:1.3
+        # env:
+        #     - name: PLUG_N_MEET_SERVER_URL
+        #       value: "localhost:8080"
+        ports:
+        - containerPort: 4000

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: livekit-deployment
+  labels:
+    app: livekit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: livekit
+  template:
+    metadata:
+      labels:
+        app: livekit
+    spec:
+      containers:
+      - name: livekit
+        image: houtei123/livekit:1.3
+        command: ["/bin/sh", "-c"]
+        args:
+          - ./livekit-server --config "/app/livekit.yaml" --dev
+        ports:
+        - containerPort: 7880
+        - containerPort: 7881
+        - containerPort: 7882
+      #   volumeMounts:
+      #   - name: livekit-config
+      #     mountPath: /app
+      # volumes:
+      # - name: livekit-config
+      #   hostPath:
+      #     path: /path/to/livekit.yaml
+      #     type: FileOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: livekit-service
+  labels:
+    app: livekit
+spec:
+  selector:
+    app: livekit
+  ports:
+  - name: tcp7880
+    port: 7880
+    targetPort: 7880
+  - name: tcp7881
+    port: 7881
+    targetPort: 7881
+  - name: udp7882
+    port: 7882
+    targetPort: 7882
+    protocol: UDP
