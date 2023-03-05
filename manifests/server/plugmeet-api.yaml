@@ -47,3 +47,24 @@ spec:
     - name: plugnmeet-api
       port: 8080
       targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: livekit-service
+  labels:
+    app: livekit
+spec:
+  selector:
+    app: plugnmeet-api
+  ports:
+  - name: tcp7880
+    port: 7880
+    targetPort: 7880
+  - name: tcp7881
+    port: 7881
+    targetPort: 7881
+  - name: udp7882
+    port: 7882
+    targetPort: 7882
+    protocol: UDP

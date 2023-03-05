@@ -9,6 +9,7 @@ kustomize build | kubectl apply -f -
 # port-forward service
 k port-forward svc/plugnmeet-frontent-service 3000:3000
 k port-forward svc/plugnmeet-api-service 8080:8080
+k port-forward svc/livekit-service 7880:7880
 **Pord-forword service**
 
 # Access front page
